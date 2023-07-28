@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+  const supabase = createMiddlewareClient<Database>({ req, res });
   await supabase.auth.getSession(); // getSession() refreshes the token when it's expired
   return res;
 }
