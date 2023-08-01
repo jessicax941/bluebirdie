@@ -1,5 +1,8 @@
 'use client';
 
+import { faHeart as faHeartOutline } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 
@@ -53,5 +56,22 @@ export default function LikeButton(props: LikeButtonProps) {
     }
   };
 
-  return <button onClick={handleLike}>{numLikes} Likes</button>;
+  const likedIcon = (
+    <FontAwesomeIcon
+      icon={faHeartSolid}
+      className="text-pink-400 animate-like"
+    />
+  );
+  const notLikedIcon = (
+    <FontAwesomeIcon icon={faHeartOutline} className="hover:text-pink-400" />
+  );
+
+  return (
+    <div className="flex flex-row items-center space-x-2">
+      <button onClick={handleLike}>
+        {hasUserLikedTweet ? likedIcon : notLikedIcon}
+      </button>
+      <p>{numLikes}</p>
+    </div>
+  );
 }

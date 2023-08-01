@@ -34,10 +34,10 @@ export default async function Home() {
     })) ?? [];
 
   return (
-    <>
+    <div className="mx-8 my-4 space-y-6">
       <Header />
       <NewTweetButton />
       <TweetList tweets={tweets} />
-    </>
+    </div>
   );
 }

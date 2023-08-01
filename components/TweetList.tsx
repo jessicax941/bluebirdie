@@ -3,7 +3,6 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, experimental_useOptimistic as useOptimistic } from 'react';
-import LikeButton from './LikeButton';
 import TweetItem from './TweetItem';
 
 type TweetListProps = {
@@ -52,26 +51,15 @@ export default function TweetList(props: TweetListProps) {
   });
 
   return (
-    <>
+    <div className="space-y-6">
       {optimisticTweets.map(
         (tweet) =>
           tweet.author && (
             <>
-              <TweetItem
-                id={tweet.id}
-                createdAt={tweet.created_at}
-                title={tweet.title}
-                profileName={tweet.author.name}
-                profileAvatar={tweet.author.avatar_url}
-                profileUsername={tweet.author.username}
-              />
-              <LikeButton
-                tweet={tweet}
-                addOptimisticTweet={addOptimisticTweet}
-              />
+              <TweetItem {...tweet} addOptimisticTweet={addOptimisticTweet} />
             </>
           )
       )}
-    </>
+    </div>
   );
 }
