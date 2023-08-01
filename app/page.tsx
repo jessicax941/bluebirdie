@@ -1,10 +1,10 @@
-import AuthButtonServer from '@/components/AuthButtonServer';
-import LikeButton from '@/components/LikeButton';
 import NewTweetButton from '@/components/NewTweetButton';
-import TweetItem from '@/components/TweetItem';
+import TweetList from '@/components/TweetList';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+import Header from '@/components/Header';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -35,24 +35,9 @@ export default async function Home() {
 
   return (
     <>
-      <AuthButtonServer />
+      <Header />
       <NewTweetButton />
-      {tweets?.map(
-        (tweet) =>
-          tweet.author && (
-            <>
-              <TweetItem
-                id={tweet.id}
-                createdAt={tweet.created_at}
-                title={tweet.title}
-                profileName={tweet.author.name}
-                profileAvatar={tweet.author.avatar_url}
-                profileUsername={tweet.author.username}
-              />
-              <LikeButton {...tweet} />
-            </>
-          )
-      )}
+      <TweetList tweets={tweets} />
     </>
   );
 }
