@@ -1,27 +1,39 @@
 'use client';
 
 import { postTweet } from '@/app/actions';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import Button from './Button';
 
 export default function NewTweetButton() {
-  const [value, setValue] = useState('');
-  const handleSubmitForm = () => {
-    console.log(value);
-    setValue('');
+  const [title, setTitle] = useState('');
+
+  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    const formData: FormData = new FormData();
+    formData.set('title', title);
+    postTweet(formData);
+
+    setTitle('');
   };
 
   return (
-    <div>
-      <form action={postTweet}>
-        <input
+    <div className="bg-slate-800 rounded-md px-10 py-6">
+      <form>
+        <textarea
           id="newTweetInput"
           name="title"
-          value={value}
-          className="bg-slate-800 h-full w-full rounded-md border-none p-6 focus:outline-none"
+          value={title}
+          className="bg-inherit h-full w-full border-none focus:outline-none resize-none"
           placeholder="What's happening?"
-          onSubmit={handleSubmitForm}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleInput}
+          rows={3}
         />
+        <Button type="submit" onClick={handleSubmit}>
+          Post
+        </Button>
       </form>
     </div>
   );
