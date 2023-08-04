@@ -20,8 +20,8 @@ export default function NewTweetButton() {
   };
 
   return (
-    <div className="bg-slate-800 rounded-md px-10 py-6">
-      <form>
+    <div className="bg-slate-800 rounded-md px-8 py-6">
+      <form className="space-y-2.5 flex flex-col items-end">
         <textarea
           id="newTweetInput"
           name="title"
@@ -32,7 +32,7 @@ export default function NewTweetButton() {
           rows={3}
         />
         <Button type="submit" onClick={handleSubmit}>
-          Post
+          Tweet
         </Button>
       </form>
     </div>
