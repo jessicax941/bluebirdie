@@ -61,7 +61,9 @@ export default function TweetList(props: TweetListProps) {
         .map(
           (tweet) =>
             tweet.author && (
-              <TweetItem {...tweet} addOptimisticTweet={addOptimisticTweet} />
+              <div key={tweet.id}>
+                <TweetItem {...tweet} addOptimisticTweet={addOptimisticTweet} />
+              </div>
             )
         )}
     </div>

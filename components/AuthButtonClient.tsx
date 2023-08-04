@@ -21,7 +21,7 @@ export default function AuthButtonClient({
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: 'http://localhost:3000/auth/callback', // to redirect users to a page after they have authenticated with github with a token
+        redirectTo: `${location.origin}/auth/callback`, // to redirect users to a page after they have authenticated with github with a token
       },
     });
   };

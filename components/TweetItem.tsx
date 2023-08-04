@@ -1,4 +1,5 @@
 import { getRelativeTimeFromDates } from '@/utils/formatTime';
+import Image from 'next/image';
 import LikeButton from './LikeButton';
 
 type TweetItemProps = TweetWithAuthor & {
@@ -27,9 +28,12 @@ export default function TweetItem(props: TweetItemProps) {
       key={id}
       className="flex flex-row px-8 py-4 space-x-4 border border-slate-800 rounded-lg"
     >
-      <img
+      <Image
         src={profileAvatar}
+        height={50}
+        width={50}
         className="h-12 rounded-full mt-1 hover:cursor-pointer"
+        alt=""
       />
 
       <div className="flex flex-col items-start">

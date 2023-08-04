@@ -2,6 +2,8 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import AuthButtonClient from './AuthButtonClient';
 
+export const dynamic = 'force-dynamic'; // tells nextjs that this component will be on a dynamic route bc server-rendered pages are static and cached by default
+
 export default async function AuthButtonServer() {
   // to dynamically render the UI based on whether user is signed in or not, we need to create server component for the auth button bc getting the session is async
   // so we get the session first, and then pass it to the client component button to directly render the correct IU
