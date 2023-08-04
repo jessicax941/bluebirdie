@@ -19,6 +19,8 @@ export default function NewTweetButton() {
     setTitle('');
   };
 
+  const isPostButtonDisabled = title === '';
+
   return (
     <div className="bg-slate-800 rounded-md px-8 py-6">
       <form className="space-y-2.5 flex flex-col items-end">
@@ -31,7 +33,11 @@ export default function NewTweetButton() {
           onChange={handleInput}
           rows={3}
         />
-        <Button type="submit" onClick={handleSubmit}>
+        <Button
+          type="submit"
+          buttonType={isPostButtonDisabled ? 'disabled' : 'primary'}
+          onClick={handleSubmit}
+        >
           Tweet
         </Button>
       </form>

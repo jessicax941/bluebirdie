@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  buttonType?: 'primary' | 'github';
+  buttonType?: 'primary' | 'github' | 'disabled';
 }
 
 export default function Button(props: ButtonProps) {
@@ -13,11 +13,16 @@ export default function Button(props: ButtonProps) {
   const styles = {
     primary: 'bg-blue-500 hover:bg-blue-600',
     github: 'bg-slate-100 text-slate-800 hover:bg-slate-200',
+    disabled: 'bg-slate-600 cursor-text',
   };
   const typeStyles = styles[buttonType];
 
   return (
-    <button className={`${baseStyles} ${typeStyles}`} {...buttonProps}>
+    <button
+      className={`${baseStyles} ${typeStyles}`}
+      disabled={buttonType === 'disabled'}
+      {...buttonProps}
+    >
       {children}
     </button>
   );

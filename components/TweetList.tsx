@@ -52,14 +52,18 @@ export default function TweetList(props: TweetListProps) {
 
   return (
     <div className="space-y-6">
-      {optimisticTweets.map(
-        (tweet) =>
-          tweet.author && (
-            <>
+      {optimisticTweets
+        .sort((tweet1: TweetWithAuthor, tweet2: TweetWithAuthor) => {
+          const timestamp1 = new Date(tweet1.created_at).getTime();
+          const timestamp2 = new Date(tweet2.created_at).getTime();
+          return timestamp2 - timestamp1;
+        })
+        .map(
+          (tweet) =>
+            tweet.author && (
               <TweetItem {...tweet} addOptimisticTweet={addOptimisticTweet} />
-            </>
-          )
-      )}
+            )
+        )}
     </div>
   );
 }

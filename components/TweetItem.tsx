@@ -1,3 +1,4 @@
+import { getRelativeTimeFromDates } from '@/utils/formatTime';
 import LikeButton from './LikeButton';
 
 type TweetItemProps = TweetWithAuthor & {
@@ -8,6 +9,7 @@ export default function TweetItem(props: TweetItemProps) {
   const {
     id,
     title,
+    created_at: timestampStr,
     author: {
       avatar_url: profileAvatar,
       name: profileName,
@@ -15,6 +17,10 @@ export default function TweetItem(props: TweetItemProps) {
     },
     addOptimisticTweet,
   } = props;
+
+  const timestamp = new Date(timestampStr);
+  const today = new Date();
+  const relativeTime = getRelativeTimeFromDates(timestamp, today);
 
   return (
     <div
@@ -32,6 +38,7 @@ export default function TweetItem(props: TweetItemProps) {
           <p className="text-slate-400 hover:underline hover:cursor-pointer">
             @{profileUsername}
           </p>
+          <p className="text-slate-400">{relativeTime}</p>
         </div>
 
         <p className="">{title}</p>
