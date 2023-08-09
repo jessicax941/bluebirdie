@@ -10,7 +10,7 @@ export default function Banner(props: BannerProps) {
   const { type = 'info', displayText } = props;
 
   const baseStyling =
-    'rounded-md bg-slate-700 text-slate-100 px-8 py-6 flex flex-row justify-start items-center space-x-3';
+    'rounded-md text-slate-100 px-8 py-6 flex flex-row justify-start items-center space-x-3';
 
   const typeStyling = {
     info: 'bg-blue-900',
