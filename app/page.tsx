@@ -2,6 +2,7 @@ import TweetList from '@/components/TweetList';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
+import Banner from '@/components/Banner';
 import Header from '@/components/Header';
 import NewTweetServer from '@/components/NewTweetServer';
 
@@ -16,7 +17,7 @@ export default async function Home() {
 
   // user can see only their own tweets or sample tweets
   const userIdsForTweets = session
-    ? [`${process.env.SAMPLE_TWEETS_UUID}`, `${session?.user.id}`]
+    ? [`${process.env.SAMPLE_TWEETS_UUID}`, `${session.user.id}`]
     : [`${process.env.SAMPLE_TWEETS_UUID}`];
 
   const { data } = await supabase
@@ -39,6 +40,9 @@ export default async function Home() {
     <div className="mx-auto mb-10 space-y-6 max-w-7xl">
       <Header />
       <div className="mx-auto space-y-6 max-w-5xl">
+        <Banner
+          displayText={`Hi! You will be able to only see your own tweets and the developer's sample tweets.`}
+        />
         <NewTweetServer />
         <TweetList tweets={tweets} />
       </div>
