@@ -1,36 +1,36 @@
-import NewTweetButton from '@/components/NewTweetButton';
 import TweetList from '@/components/TweetList';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 import Header from '@/components/Header';
+import NewTweetServer from '@/components/NewTweetServer';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
 
-  // if user is not signed in, we want to redirect them to the login page
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  if (!session) {
-    redirect('/login');
-  }
+
+  // user can see only their own tweets or sample tweets
+  const userIdsForTweets = session
+    ? [`${process.env.SAMPLE_TWEETS_UUID}`, `${session?.user.id}`]
+    : [`${process.env.SAMPLE_TWEETS_UUID}`];
 
   const { data } = await supabase
     .from('tweets')
-    .select('*, author: profiles(*), likes(user_id)');
-  // rename 'profiles' to 'author'
+    .select('*, author: profiles(*), likes(user_id)') // rename 'profiles' to 'author'
+    .in('user_id', userIdsForTweets);
 
   const tweets =
     data?.map((tweet) => ({
       ...tweet,
       author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author, // assign author so that it's not null
-      user_has_liked_tweet: !!tweet.likes.find(
-        (like) => like.user_id === session.user.id
-      ), // finds row where the user id on the like is same as our current user
+      user_has_liked_tweet: session
+        ? !!tweet.likes.find((like) => like.user_id === session.user.id)
+        : false, // finds row where the user id on the like is same as our current user
       // double exclamation mark to turn return value from find() into true/false
       likes: tweet.likes.length,
     })) ?? [];
@@ -39,7 +39,7 @@ export default async function Home() {
     <div className="mx-auto mb-10 space-y-6 max-w-7xl">
       <Header />
       <div className="mx-auto space-y-6 max-w-5xl">
-        <NewTweetButton />
+        <NewTweetServer />
         <TweetList tweets={tweets} />
       </div>
     </div>

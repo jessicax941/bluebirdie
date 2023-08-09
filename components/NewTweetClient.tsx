@@ -4,7 +4,12 @@ import { postTweet } from '@/app/actions';
 import { ChangeEvent, useState } from 'react';
 import Button from './Button';
 
-export default function NewTweetButton() {
+type NewTweetProps = {
+  isUserSignedIn: boolean;
+};
+
+export default function NewTweetClient(props: NewTweetProps) {
+  const { isUserSignedIn } = props;
   const [title, setTitle] = useState('');
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -19,7 +24,8 @@ export default function NewTweetButton() {
     setTitle('');
   };
 
-  const isPostButtonDisabled = title === '';
+  const isPostButtonDisabled =
+    !isUserSignedIn || (isUserSignedIn && title === '');
 
   return (
     <div className="bg-slate-800 rounded-md px-8 py-6">
